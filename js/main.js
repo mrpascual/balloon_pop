@@ -8,8 +8,16 @@ var points = 0;
 var balloons = [
   new Balloon(100, 200),
   new Balloon(300, 300),
-  new Balloon(600, 350)
+  new Balloon(600, 350),
+  new Balloon(400, 500)
 ];
+
+// //to create more ballons
+for(var i = 0; i < 10; i ++) {
+   balloons.push(new Balloon(Math.round((Math.random() * 500)),
+   Math.round((Math.random() * 500))))
+ }
+
 
 /*
  * x, y -> the coordinates on the canvas (where it is!)
@@ -32,6 +40,8 @@ var startGame = function() {
   console.log("Game starting…");
 
   timer = setInterval(tick, 50);
+
+
 };
 
 var pauseGame = function() {

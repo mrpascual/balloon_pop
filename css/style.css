@@ -1,0 +1,10 @@
+#main-canvas {
+  background-color: indianred;
+  outline: blue;
+  display: block;
+  margin: 100px auto;
+}
+
+img {
+  width: 100px;
+}

@@ -6,10 +6,10 @@ var gamePaused = true;
 var timer;
 var points = 0;
 var balloons = [
-  new Balloon(100, 200),
-  new Balloon(300, 300),
-  new Balloon(600, 350),
-  new Balloon(400, 500)
+  new Balloon(600, 400),
+  new Balloon(400, 400),
+  new Balloon(200, 400),
+  new Balloon(300, 400)
 ];
 
 // //to create more ballons
@@ -32,6 +32,7 @@ function Balloon(x, y, fillColor) {
 Balloon.prototype.pop = function() {
   this.radius = 0;
 }
+
 
 /* Game Behavior */
 
@@ -96,11 +97,24 @@ startGame();
 
 $canvas.on("click", function(evt) {
   console.log("CLICKED:", evt.offsetX, evt.offsetY);
-
   for (var i = 0; i < balloons.length; i++) {
+    if(evt.offsetX <= balloons[i].x + 30 && evt.offsetX >= balloons[i].x - 30) {
+      if(evt.offsetY <= balloons[i].y + 30 && evt.offsetY >= balloons[i].y - 30) {
+        balloons[i].pop();
+        console.log("POP!");
+      }
+    }
+  }
+});
+
+
     // if (balloons[i].x balloons[i].y // this logic to find it) {
     //   balloon[i].pop()
     //   points = points + 300;
     // }
-  }
-});
+
+
+
+
+
+

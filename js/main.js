@@ -2,6 +2,15 @@ console.log ("Balloon Pop Loaded!");
 
 /* Data Model */
 
+var canvas = {
+  width:  700,
+  height: 600
+};
+
+var canvasEl = document.getElementById("main-canvas");
+var ctx      = canvasEl.getContext("2d");
+var $canvas  = $("#main-canvas");
+
 var gamePaused = true;
 var timer;
 var points = 0;
@@ -13,23 +22,83 @@ var balloons = [
 ];
 
 var bombs = [
-  new Bomb(200, 600),
-  new Bomb(300,600),
+  new Bomb(250, 600),
+  new Bomb(350,600),
   new Bomb(500, 600),
   new Bomb(450,600)
 ];
 
+/* Game Behavior */
+
+// Start game
+var startGame = function() {
+  console.log("Game starting…");
+  timer = setInterval(tick, 35);
+};
 
 
-// //to create more ballons
+function roundTwo() {
+  // Balloon.prototype.make10balloons();
+  console.log("Round Two");
+  Balloon.prototype.make10balloons();
+  if (balloons[10].y === 50){
+    console.log("yo")
+  } else if(balloons[14].y === 0) {
+    Balloon.prototype.make10balloons();
+  }
+
+
+};
+
+/* Interaction ********************************************************/
+
+var tick = function() {
+  // Balloons float up
+  for (var i = 0; i < balloons.length; i++) {
+    balloons[i].y = balloons[i].y - 5;
+
+  }
+  for (var i = 0; i < bombs.length; i++) {
+    bombs[i].y = bombs[i].y - 5;
+    }
+  render();
+   if (balloons[1].y === 0) {
+     console.log("check")
+     roundTwo();
+}};
+
+
+/* VIEW render ********************************************************/
+
+var render = function() {
+  // Clear canvas
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Draw balloons
+  for (var i = 0; i < balloons.length; i++) {
+    balloons[i].draw();
+}
+ // Draw bombs
+  for (var i = 0; i < bombs.length; i++) {
+    bombs[i].draw();
+
+    ctx.font = "30px helvetica"
+    ctx.fillStyle = "FFFFFF";
+    ctx.fillText(points, 330, 45);
+    }
+  };
+
+
+ //to create more ballons
 
 Balloon.prototype.make10balloons = function() {
   for(var i = 0; i < 10; i ++) {
      balloons.push(new Balloon(Math.round((Math.random() * 500)),
-     Math.round((Math.random() * 500))))
+     Math.round((Math.random() * 600) + 500)))
    }
+     balloons.push(new Balloon(350, 600));
+     console.log("just printed last balloon");
 }
-
 
 /*
  * x, y -> the coordinates on the canvas (where it is!)
@@ -56,13 +125,6 @@ Bomb.prototype.explode = function() {
   this.radius = 0;
 }
 
-/* Game Behavior */
-
-// Start game
-var startGame = function() {
-  console.log("Game starting…");
-  timer = setInterval(tick, 35);
-};
 
 var pauseGame = function() {
   clearInterval(timer);
@@ -70,7 +132,7 @@ var pauseGame = function() {
 
 
 /* VIEW helpers *******************************************************/
-
+//draws balloons on canvas
 Balloon.prototype.draw = function() {
   ctx.beginPath();
   ctx.arc(this.x, this.y, this.radius, 0, Math.PI*2, true);
@@ -78,7 +140,7 @@ Balloon.prototype.draw = function() {
   ctx.fillStyle = this.color;
   ctx.fill();
 }
-
+//draws bombs on canvas
 Bomb.prototype.draw = function() {
   ctx.beginPath();
   ctx.arc(this.x, this.y, this.radius, 0, Math.PI*2, true);
@@ -87,63 +149,15 @@ Bomb.prototype.draw = function() {
   ctx.fill();
 }
 
-var canvas = {
-  width:  700,
-  height: 600
-};
-
-/* VIEW render ********************************************************/
-
-var render = function() {
-  // Clear canvas
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  // Draw balloons
-  for (var i = 0; i < balloons.length; i++) {
-    balloons[i].draw();
-}
- // Draw bombs
-  for (var i = 0; i < bombs.length; i++) {
-    bombs[i].draw();
-
-    ctx.font = "30px helvetica"
-    ctx.fillStyle = "FFFFFF";
-    ctx.fillText(points, 330, 45);
-    }
-  };
-
-
-var canvasEl = document.getElementById("main-canvas");
-var ctx      = canvasEl.getContext("2d");
-var $canvas  = $("#main-canvas");
-
-/* Interaction ********************************************************/
-
-var tick = function() {
-  // Balloons float up
-  for (var i = 0; i < balloons.length; i++) {
-    balloons[i].y = balloons[i].y - 5;
-  }
-
-   for (var i = 0; i < bombs.length; i++) {
-    bombs[i].y = bombs[i].y - 5;
-
-    }
-
-  render();
-};
-
-
 // $canvas.on("click", startGame);
-startGame();
-
 $canvas.on("click", function(evt) {
   console.log("CLICKED:", evt.offsetX, evt.offsetY);
   for (var i = 0; i < balloons.length; i++) {
     if(evt.offsetX <= balloons[i].x + 30 && evt.offsetX >= balloons[i].x - 30) {
       if(evt.offsetY <= balloons[i].y + 30 && evt.offsetY >= balloons[i].y - 30) {
         balloons[i].pop(); //removes balloon from canvas
-        points = points + 100; //adds 100 points for each balloon clicked
+        //balloons[i].make10balloons();
+        points += 100; //adds 100 points for each balloon clicked
         console.log("POP!");
       }
     }
@@ -152,10 +166,12 @@ $canvas.on("click", function(evt) {
     if(evt.offsetX <= bombs[i].x + 30 && evt.offsetX >= bombs[i].x - 30) {
       if(evt.offsetY <= bombs[i].y + 30 && evt.offsetY >= bombs[i].y - 30) {
         bombs[i].explode(); //removes bombs from canvas
-        points = points + 300; //minus 100 points for each bomb clicked
+        points -= 200 ; //minus 100 points for each bomb clicked
         console.log("BOOM!")
       }
     }
   }
 });
+
+startGame();
 

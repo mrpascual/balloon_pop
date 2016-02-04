@@ -1,14 +1,14 @@
-body {
+/*body {
   background-image: url("../images/background-sky.png");
   background-size: 700px, 400px;
   background-repeat: no-repeat;
   background-position: absolute;
   display: block;
   margin: 100px auto;
-}
+}*/
 
 #main-canvas {
-  background-color: transparent;
+  background-color: indianred;
   outline: blue;
   display: block;
   margin: 100px auto;

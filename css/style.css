@@ -2,6 +2,7 @@ body {
   background-image: url("../images/background-sky.png");
   background-size: 700px, 400px;
   background-repeat: no-repeat;
+  background-position: absolute;
   display: block;
   margin: 100px auto;
 }
@@ -13,11 +14,6 @@ body {
   margin: 100px auto;
 }
 
-
-
-img {
-  width: 100px;
-}
 
 
 h1 {

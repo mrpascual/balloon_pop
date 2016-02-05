@@ -15,12 +15,20 @@ The objective of the game is to click (pop) as many blue circles as you can befo
 
 Click link to test your skills [http://mrpascual.github.io/balloon_pop/ ](http://mrpascual.github.io/balloon_pop/) 
 
+Mobile friendly 
+
 
 
 ## Tips
-1. Pop grouped balloons in order to collect more points
+- Time your clicks for a fast win
 
-2. Use a mouse if it gets too hard
+- Pop grouped balloons in order to collect more points
+
+## Technologies
+-	HTML
+- CSS
+- JavaScript
+- Canvas
 
 
 ## Thanks for Playing!  ^__^

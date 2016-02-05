@@ -88,7 +88,7 @@ var tick = function() {
 };
 
 
-/* VIEW render ********************************************************/
+/* VIEW render */
 
 var render = function() {
   // Clear canvas
@@ -110,7 +110,7 @@ var render = function() {
 
 Balloon.prototype.make10balloons = function() {
   for(var i = 0; i < 1; i ++) {
-     balloons.push(new Balloon(Math.round((Math.random() * 700)),
+     balloons.push(new Balloon(Math.round((Math.random() * 600)),
      Math.round((Math.random() * 600) + 800)))
    }
      balloons.push(new Balloon(350, 600));
@@ -120,7 +120,7 @@ Balloon.prototype.make10balloons = function() {
 
 Bomb.prototype.make10bombs = function() {
   for(var i = 0; i < 4; i ++) {
-     bombs.push(new Bomb(Math.round((Math.random() * 700)),
+     bombs.push(new Bomb(Math.round((Math.random() * 600)),
      Math.round((Math.random() * 400) + 0)))
    }
      bombs.push(new Bomb(350, 600));
@@ -159,7 +159,7 @@ var pauseGame = function() {
 }
 
 
-/* VIEW helpers *******************************************************/
+/* VIEW helpers */
 //draws balloons on canvas
 Balloon.prototype.draw = function() {
   ctx.beginPath();

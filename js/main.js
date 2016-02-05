@@ -1,8 +1,4 @@
 console.log ("Balloon Pop Loaded!");
-//////////CREATE A CALL BACK FUNCTION
-//////////WITH A SETTIMEOUT FUNCTION INSIDE OF IT
-//////////ADD RECURSION FUNCTION
-//////////OPTIONAL: IF MADE IT TO ROUND 10, AND HAVE 5000 POINTS, CONSOLELOG YOU WIN
 
 
 /* Data Model */
@@ -23,30 +19,33 @@ var points = 0;
 var balloons = [
   new Balloon(100, 600),
   new Balloon(300, 600),
-  new Balloon(500, 600),
+  new Balloon(350, 600),
   new Balloon(570, 600)
 ];
 
 var bombs = [
-  new Bomb(250, 600),
-  new Bomb(450,600),
-  new Bomb(600, 600),
-  new Bomb(180,600)
+  new Bomb(250, 0),
+  new Bomb(450, 0),
 ];
 
-var reset = function() {
-  // Clear canvas
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+var winner = function drawWinnerText() {
+  var ctx = document.getElementById('main-canvas').getContext('2d');
+  ctx.font = "200px impact";
+  ctx.fillStyle = "#ffffff";
+  //ctx.strokeStyle = "#000000";
+  ctx.fillText("WINNER", 40, 300);
+
 };
 
-// round 2 triggers the balloon generator
+
+// triggers the balloon generator
 var roundAmt = 2;
 /* Game Behavior */
 
 // Start game
 var startGame = function() {
   console.log("Game starting…");
-  timer = setInterval(tick, 20);
+  timer = setInterval(tick, 12);
 };
 
 
@@ -60,54 +59,32 @@ function roundTwo() {
   }
 };
 
-//function callMeBack() {
-//  console.log("woot woot!");
-// Balloon.prototype.make10balloons();
-//  Bomb.prototype.make10bombs();
-//  if (balloons[10].y === 50){
-//    console.log("yo")
-//  } else if(balloons[14].y === 0) {
-//    Balloon.prototype.make10balloons();
-//  }
 
-
-//};
-
-//var cb = setTimeout(callMeBack, 5000);
 
 /* Interaction ********************************************************/
 
 var tick = function() {
   // Balloons float up
   for (var i = 0; i < balloons.length; i++) {
-    balloons[i].y = balloons[i].y - 5;
-
+    balloons[i].y = balloons[i].y - 7;
   }
   for (var i = 0; i < bombs.length; i++) {
-    bombs[i].y = bombs[i].y - 5;
+    bombs[i].y = bombs[i].y + 5;
     }
   render();
   if (balloons[balloons.length - 1].y < 0) {
      console.log("check")
      roundTwo();
      if (roundAmt < 7) roundAmt++;
-     //setTimeout(5000);
   }
 
-   if (points === 2000) {   //get winnder
+   if (points >= 1000) {   //get winnder
     getWinner = true;
     pauseGame();
-    //setTimeout(reset, 5000);
-    //reset();
+    winner();//text(winner);
+    playKarateKid();
     console.log("Graaavy!")
   }
-
-  //if (code == 32) {   //pause game
-  //  pauseGame();
-  //}
-
-
-//callMeBack();
 };
 
 
@@ -126,17 +103,13 @@ var render = function() {
     bombs[i].draw();
 
     $('#points').text(points);
-    // ctx.font = "30px helvetica"
-    // ctx.fillStyle = "FFFFFF";
-    // ctx.fillText(points, 330, 45);
-    }
-  };
-
+  }
+};
 
  //to create more ballons & bombs
 
 Balloon.prototype.make10balloons = function() {
-  for(var i = 0; i < 5; i ++) {
+  for(var i = 0; i < 1; i ++) {
      balloons.push(new Balloon(Math.round((Math.random() * 700)),
      Math.round((Math.random() * 600) + 800)))
    }
@@ -146,9 +119,9 @@ Balloon.prototype.make10balloons = function() {
 
 
 Bomb.prototype.make10bombs = function() {
-  for(var i = 0; i < 5; i ++) {
+  for(var i = 0; i < 4; i ++) {
      bombs.push(new Bomb(Math.round((Math.random() * 700)),
-     Math.round((Math.random() * 600) + 800)))
+     Math.round((Math.random() * 400) + 0)))
    }
      bombs.push(new Bomb(350, 600));
      console.log("last bomb");
@@ -156,7 +129,7 @@ Bomb.prototype.make10bombs = function() {
 
 
 /*
- * x, y -> the coordinates on the canvas (where it is!)
+ * x, y -> the coordinates on the canvas
  */
 function Balloon(x, y, fillColor) {
   this.x = x || 0;
@@ -190,7 +163,7 @@ var pauseGame = function() {
 //draws balloons on canvas
 Balloon.prototype.draw = function() {
   ctx.beginPath();
-  ctx.arc(this.x, this.y, this.radius, 0, Math.PI*2, true);
+  ctx.arc(this.x, this.y, this.radius, 0, Math.PI*2, false);
   ctx.closePath();
   ctx.fillStyle = this.color;
   ctx.fill();
@@ -198,7 +171,7 @@ Balloon.prototype.draw = function() {
 //draws bombs on canvas
 Bomb.prototype.draw = function() {
   ctx.beginPath();
-  ctx.arc(this.x, this.y, this.radius, 0, Math.PI*2, true);
+  ctx.arc(this.x, this.y, this.radius, 0, Math.PI*2, false);
   ctx.closePath();
   ctx.fillStyle = this.color;
   ctx.fill();
@@ -211,26 +184,45 @@ $canvas.on("click", function(evt) {
     if(evt.offsetX <= balloons[i].x + 30 && evt.offsetX >= balloons[i].x - 30) {
       if(evt.offsetY <= balloons[i].y + 30 && evt.offsetY >= balloons[i].y - 30) {
         balloons[i].pop(); //removes balloon from canvas
-
-        //balloons[i].make10balloons();
-        points += 100; //adds 100 points for each balloon clicked
+        playPopSound();
+        points += 50; //adds 100 points for each balloon clicked
         console.log("POP!");
       }
     }
   }
 
-
-
   for (var i = 0; i < bombs.length; i++) {
     if(evt.offsetX <= bombs[i].x + 30 && evt.offsetX >= bombs[i].x - 30) {
       if(evt.offsetY <= bombs[i].y + 30 && evt.offsetY >= bombs[i].y - 30) {
         bombs[i].explode(); //removes bombs from canvas
-        points -= 200 ; //minus 100 points for each bomb clicked
+        points -= 100 ; //minus 100 points for each bomb clicked
         console.log("BOOM!")
+        playBombSound();
       }
     }
   }
 });
 
-startGame();
+$("#button").on("click", startGame)
+$("#button2").on("click", pauseGame)
+
+
+
+//audio manipulation
+
+var pop = new Audio("./sounds/pop2.wav")
+var bomb = new Audio("./sounds/bomb.mp3")
+var karateKid = new Audio("./sounds/karatekid.mp3")
+
+function playPopSound() {
+  pop.play();
+}
+
+function playBombSound() {
+  bomb.play();
+}
+
+function playKarateKid() {
+  karateKid.play();
+}
 

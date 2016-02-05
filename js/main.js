@@ -45,7 +45,7 @@ var roundAmt = 2;
 // Start game
 var startGame = function() {
   console.log("Game starting…");
-  timer = setInterval(tick, 20);
+  timer = setInterval(tick, 35);
 };
 
 

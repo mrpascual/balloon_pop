@@ -113,7 +113,7 @@ Balloon.prototype.make10balloons = function() {
      balloons.push(new Balloon(Math.round((Math.random() * 600)),
      Math.round((Math.random() * 600) + 800)))
    }
-     balloons.push(new Balloon(350, 600));
+     balloons.push(new Balloon(200, 600));
      console.log("just printed last balloon");
 }
 

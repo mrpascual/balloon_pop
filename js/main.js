@@ -17,6 +17,7 @@ var ctx      = canvasEl.getContext("2d");
 var $canvas  = $("#main-canvas");
 
 var gamePaused = true;
+var getWinner = false;
 var timer;
 var points = 0;
 var balloons = [
@@ -33,14 +34,19 @@ var bombs = [
   new Bomb(180,600)
 ];
 
+var reset = function() {
+  // Clear canvas
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+};
 
+// round 2 triggers the balloon generator
 var roundAmt = 2;
 /* Game Behavior */
 
 // Start game
 var startGame = function() {
   console.log("Game starting…");
-  timer = setInterval(tick, 30);
+  timer = setInterval(tick, 20);
 };
 
 
@@ -48,14 +54,11 @@ function roundTwo() {
   // Balloon.prototype.make10balloons();
 
   for(var i = 0; i< roundAmt; i++){
-    console.log("Next Round");
+    console.log("Next Round"); //call this on the canvas
     Balloon.prototype.make10balloons();
     Bomb.prototype.make10bombs();
   }
 };
-
-
-
 
 //function callMeBack() {
 //  console.log("woot woot!");
@@ -88,7 +91,20 @@ var tick = function() {
      console.log("check")
      roundTwo();
      if (roundAmt < 7) roundAmt++;
+     //setTimeout(5000);
   }
+
+   if (points === 2000) {   //get winnder
+    getWinner = true;
+    pauseGame();
+    //setTimeout(reset, 5000);
+    //reset();
+    console.log("Graaavy!")
+  }
+
+  //if (code == 32) {   //pause game
+  //  pauseGame();
+  //}
 
 
 //callMeBack();

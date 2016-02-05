@@ -24,6 +24,19 @@ Mobile friendly
 
 - Pop grouped balloons in order to collect more points
 
+- Use a mouse if you are having difficulty using a trackpad 
+
+## Future Features
+- Rounds
+
+- Life points
+
+- Opening animation 
+
+- Balloons and bombs animate when clicked
+
+- Different stages
+
 ## Technologies
 -	HTML
 - CSS
